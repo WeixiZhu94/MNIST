@@ -16,18 +16,15 @@ def main(train_dir, batch_size, num_batches, log_dir):
     images, labels = inputs(train_dir,
                             True,
                             batch_size,
-                            num_batches,
-                            one_hot_labels=True)
-    predictions = network(images)
+                            num_batches)
+    predictions, total_loss = network(images, labels)
 
-    slim.losses.softmax_cross_entropy(predictions, labels)
-    total_loss = slim.losses.get_total_loss()
     tf.summary.scalar('loss', total_loss)
 
-    optimizer = tf.train.GradientDescentOptimizer(0.01)
+    optimizer = tf.train.GradientDescentOptimizer(0.001)
     train_op = slim.learning.create_train_op(total_loss, optimizer, summarize_gradients=True)
 
-    slim.learning.train(train_op, log_dir, save_summaries_secs=20)
+    slim.learning.train(train_op, log_dir, save_summaries_secs=10, save_interval_secs=10)
 
 
 if __name__ == '__main__':

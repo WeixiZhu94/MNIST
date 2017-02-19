@@ -8,13 +8,16 @@ TRAIN_FILE = 'train.tfrecords'
 VALIDATION_FILE = 'train.tfrecords'
 TEST_FILE = 'test.tfrecords'
 
-def network(images):
+def network(images, labels):
    input = slim.layers.flatten(images)
    hidden_1 = slim.layers.fully_connected(input, 128, scope='hidden_1', normalizer_fn=slim.layers.batch_norm)
    hidden_2 = slim.layers.fully_connected(hidden_1, 128, scope='hidden_2', normalizer_fn=slim.layers.batch_norm)
    hidden_3 = slim.layers.fully_connected(hidden_2, 128, scope='hidden_3', normalizer_fn=slim.layers.batch_norm)
-   output = slim.layers.fully_connected(hidden_3, 10, scope='softmax', activation_fn=None)
-   return output
+   logits = slim.layers.fully_connected(hidden_3, 10, scope='softmax', activation_fn=None)
+   
+   slim.losses.sparse_softmax_cross_entropy(logits, labels)
+   total_loss = slim.losses.get_total_loss()
+   return logits, total_loss
 
 
 def read_and_decode(filename_queue):

@@ -20,9 +20,11 @@ def main(train_dir, batch_size, num_batches, log_dir, checkpoint_dir=None):
         checkpoint_dir = log_dir
 
     images, labels = inputs(train_dir, False, batch_size, num_batches)
-    predictions = network(images)
+    predictions, total_loss = network(images, labels)
+    
+    tf.summary.scalar('loss', total_loss)
     predictions = tf.to_int32(tf.argmax(predictions, 1))
-
+    
     tf.summary.scalar('accuracy', slim.metrics.accuracy(predictions, labels))
 
     # These are streaming metrics which compute the "running" metric,
@@ -41,9 +43,9 @@ def main(train_dir, batch_size, num_batches, log_dir, checkpoint_dir=None):
         checkpoint_dir,
         log_dir,
         num_evals=num_batches,
-        eval_op=metrics_to_updates.values(),
+        eval_op=list(metrics_to_updates.values()),
         summary_op=tf.summary.merge_all(),
-        eval_interval_secs=30)
+        eval_interval_secs=10)
 
 
 if __name__=='__main__':
