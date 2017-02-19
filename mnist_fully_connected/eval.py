@@ -30,7 +30,8 @@ def main(train_dir, batch_size, num_batches, log_dir, checkpoint_dir=None):
     # These are streaming metrics which compute the "running" metric,
     # e.g running accuracy
     metrics_to_values, metrics_to_updates = slim.metrics.aggregate_metric_map({
-        "streaming_mse": slim.metrics.streaming_mean_squared_error(predictions, labels),
+        'accuracy': slim.metrics.streaming_accuracy(predictions, labels),
+        'streaming_mse': slim.metrics.streaming_mean_squared_error(predictions, labels),
     })
 
     # Define the streaming summaries to write:
@@ -45,7 +46,8 @@ def main(train_dir, batch_size, num_batches, log_dir, checkpoint_dir=None):
         num_evals=num_batches,
         eval_op=list(metrics_to_updates.values()),
         summary_op=tf.summary.merge_all(),
-        eval_interval_secs=10)
+        eval_interval_secs=10,
+        max_number_of_evaluations = 100000000)
 
 
 if __name__=='__main__':
