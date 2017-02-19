@@ -14,7 +14,7 @@ def network(images, labels):
    hidden_2 = slim.layers.fully_connected(hidden_1, 128, scope='hidden_2', normalizer_fn=slim.layers.batch_norm)
    hidden_3 = slim.layers.fully_connected(hidden_2, 128, scope='hidden_3', normalizer_fn=slim.layers.batch_norm, activation_fn=None)
    res = tf.nn.relu(hidden_1+hidden_3)
-   logits = slim.layers.fully_connected(hidden_3, 10, scope='softmax', activation_fn=None)
+   logits = slim.layers.fully_connected(res, 10, scope='softmax', activation_fn=None)
    
    slim.losses.sparse_softmax_cross_entropy(logits, labels)
    total_loss = slim.losses.get_total_loss()
