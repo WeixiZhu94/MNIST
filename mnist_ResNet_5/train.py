@@ -7,7 +7,7 @@ flags.DEFINE_string('train_dir', '../data',
                     'Directory with the training data.')
 flags.DEFINE_integer('batch_size', 100, 'Batch size.')
 flags.DEFINE_integer('num_batches', None, 'Num of batches to train (epochs).')
-flags.DEFINE_string('log_dir', '../log/mnist_ResNet/train',
+flags.DEFINE_string('log_dir', '../log/mnist_ResNet_5/train',
                     'Directory with the log data.')
 FLAGS = flags.FLAGS
 
