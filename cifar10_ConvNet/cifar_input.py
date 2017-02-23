@@ -74,20 +74,12 @@ def build_input(dataset, batch_size, mode):
 
   # Read 'batch' labels + images from the example queue.
   images, labels = example_queue.dequeue_many(batch_size)
-  labels = tf.reshape(labels, [batch_size, 1])
-  sparse_labels = labels
-  indices = tf.reshape(tf.range(0, batch_size, 1), [batch_size, 1])
-  labels = tf.sparse_to_dense(
-      tf.concat(1, [indices, labels]),
-      [batch_size, num_classes], 1.0, 0.0)
-
+  labels = tf.squeeze(labels)
   assert len(images.get_shape()) == 4
   assert images.get_shape()[0] == batch_size
   assert images.get_shape()[-1] == 3
-  assert len(labels.get_shape()) == 2
-  assert labels.get_shape()[0] == batch_size
-  assert labels.get_shape()[1] == num_classes
+  assert len(labels.get_shape()) == 1
 
   # Display the training images in the visualizer.
   tf.summary.image('images', images)
-  return images, labels, tf.squeeze(sparse_labels)
+  return images, labels

@@ -21,7 +21,7 @@ def main(train_dir, batch_size, num_batches, log_dir, checkpoint_dir=None):
     if checkpoint_dir is None:
         checkpoint_dir = log_dir
 
-    images, labels, sparse_labels = cifar_input.build_input('cifar10', 100, 'test')
+    images, labels = build_input('cifar10', 100, 'test')
     predictions, total_loss = network(images, labels)
     
     tf.summary.scalar('loss', total_loss)
