@@ -1,8 +1,7 @@
 import os
 
 import tensorflow as tf
-import tensorflow.contrib.slim as slim
-from tensorflow.examples.tutorials.mnist import mnist
+import tensorflow.contrib.slim as slim\
 
 TRAIN_FILE = 'train.tfrecords'
 VALIDATION_FILE = 'train.tfrecords'
