@@ -9,7 +9,7 @@ TEST_FILE = 'test.tfrecords'
 
 def network(images, labels):
 
-   net = slim.layers.conv2d(images, 16, [3,3], scope='conv_0_1', normalizer_fn=slim.layers.batch_norm)
+   net = slim.layers.conv2d(images, 16, [3,3], scope='conv_0_0', normalizer_fn=slim.layers.batch_norm)
    
    net = slim.layers.conv2d(net, 16, [3,3], scope='conv_0_1', normalizer_fn=slim.layers.batch_norm)
    net = slim.layers.conv2d(net, 16, [5,5], scope='conv_1_1', normalizer_fn=slim.layers.batch_norm)
