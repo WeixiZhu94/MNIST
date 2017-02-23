@@ -11,6 +11,7 @@ def network(images, labels):
 
    net = slim.layers.conv2d(images, 8, [3,3], scope='conv_0_1', normalizer_fn=slim.layers.batch_norm)
    net = slim.layers.conv2d(net, 16, [3,3], scope='conv_0_2', normalizer_fn=slim.layers.batch_norm)
+   net = slim.layers.max_pool2d(net, [2,2], scope='pool_0')
 
    net = slim.layers.conv2d(net, 16, [3,3], scope='conv_1_1', normalizer_fn=slim.layers.batch_norm)
    net = slim.layers.conv2d(net, 16, [3,3], scope='conv_1_2', normalizer_fn=slim.layers.batch_norm)
