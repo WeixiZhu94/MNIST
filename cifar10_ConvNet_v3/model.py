@@ -26,7 +26,7 @@ def network(images, labels):
    net = slim.layers.flatten(net, scope='flatten')
    net = slim.layers.fully_connected(net, 1024, scope='fully_connected_1', normalizer_fn=slim.layers.batch_norm)
    net = slim.layers.fully_connected(net, 1024, scope='fully_connected_2', normalizer_fn=slim.layers.batch_norm)
-   logits = slim.layers.fully_connected(net, 10, activation_fn=None, scope='logits', normalizer_fn=slim.layers.batch_norm)
+   logits = slim.layers.fully_connected(net, 10, activation_fn=None, scope='logits')
    
    slim.losses.sparse_softmax_cross_entropy(logits, labels)
    total_loss = slim.losses.get_total_loss()
