@@ -48,7 +48,7 @@ def main(train_dir, batch_size, num_batches, log_dir, checkpoint_dir=None):
           num_evals=num_batches,
           eval_op=list(metrics_to_updates.values()),
           summary_op=tf.summary.merge_all(),
-          eval_interval_secs=20,
+          eval_interval_secs=60,
           max_number_of_evaluations = 100000000)
 
 

@@ -19,7 +19,6 @@ def main(train_dir, batch_size, num_batches, log_dir):
     predictions, total_loss = network(images, labels)
 
     tf.summary.scalar('loss', total_loss)
-
     optimizer = tf.train.GradientDescentOptimizer(0.1)
     train_op = slim.learning.create_train_op(total_loss, optimizer, summarize_gradients=True)
 
