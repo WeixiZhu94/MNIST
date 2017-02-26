@@ -31,7 +31,7 @@ def network(images, labels):
    mask = tf.reshape(mask, [100,32,32])
    mask = tf.stack([mask, mask, mask], axis=3)
    net = tf.multiply(images, mask)
-   net = slim.layers.conv2d(images, 16, [3,3], scope='conv_0_0', normalizer_fn=slim.layers.batch_norm)
+   net = slim.layers.conv2d(net, 16, [3,3], scope='conv_0_0', normalizer_fn=slim.layers.batch_norm)
    
    net = slim.layers.conv2d(net, 64, [3,3], scope='conv_0_1', normalizer_fn=slim.layers.batch_norm)
    net = slim.layers.conv2d(net, 64, [3,3], scope='conv_1_1', normalizer_fn=slim.layers.batch_norm)
