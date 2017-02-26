@@ -29,8 +29,7 @@ def network(images, labels):
 
    mask = attention(images)
    mask = tf.reshape(mask, [100,32,32])
-   mask = tf.expand_dims(mask, 3)
-   mask = tf.tile(mask, [1, 1, 1, 3])
+   mask = tf.stack([mask, mask, mask], axis=3)
    net = tf.multiply(images, mask)
    net = slim.layers.conv2d(images, 16, [3,3], scope='conv_0_0', normalizer_fn=slim.layers.batch_norm)
    
