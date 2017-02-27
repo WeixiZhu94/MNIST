@@ -30,6 +30,7 @@ def network(images, labels):
    mask = attention(images)
    mask = tf.reshape(mask, [100,32,32,1])
    tf.summary.histogram('mask', mask)
+   tf.summary.image('image_mask', mask)
    tf.summary.image('image', images)
    net = tf.multiply(images, mask)
    tf.summary.image('attention', net)
