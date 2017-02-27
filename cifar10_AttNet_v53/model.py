@@ -23,7 +23,7 @@ def attention(net):
    net = slim.layers.flatten(net, scope='att_flatten')
    net = slim.layers.fully_connected(net, 1024, activation_fn=None, scope='mask', normalizer_fn=slim.layers.batch_norm)
    
-   return tf.to_int(tf.rint(tf.sign(tf.nn.relu(net))))
+   return tf.to_int32(tf.rint(tf.sign(tf.nn.relu(net))))
 
 def network(images, labels):
 
