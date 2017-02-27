@@ -29,8 +29,9 @@ def network(images, labels):
 
    mask = attention(images)
    mask = tf.reshape(mask, [100,32,32])
+   tf.summary.histogram('mask', mask)
    mask = tf.stack([mask, mask, mask], axis=3)
-
+   
    tf.summary.image('image', images)
    net = tf.multiply(images, mask)
    tf.summary.image('attention', net)
