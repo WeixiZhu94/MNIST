@@ -37,7 +37,7 @@ def build_input(dataset, batch_size, mode):
   depth_major = tf.reshape(tf.slice(record, [label_offset + label_bytes], [image_bytes]),
                            [depth, image_size, image_size])
   # Convert from [depth, height, width] to [height, width, depth].
-  tf.summary.histogram('images_uint8', images)
+  tf.summary.histogram('images_uint8', depth_major)
   image = tf.cast(tf.transpose(depth_major, [1, 2, 0]), tf.float32) / 255
 
   if mode == 'train':
