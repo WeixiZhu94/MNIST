@@ -28,8 +28,7 @@ def attention(net):
 def network(images, labels):
    images = tf.image.rgb_to_grayscale(images)
    mask = attention(images)
-   mask = tf.reshape(mask, [100,32,32])
-   
+   mask = tf.reshape(mask, [100,32,32,1])
    tf.summary.histogram('mask', mask)
    tf.summary.image('image', images)
    net = tf.multiply(images, mask)
