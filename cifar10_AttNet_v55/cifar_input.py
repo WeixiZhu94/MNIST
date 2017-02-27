@@ -37,6 +37,7 @@ def build_input(dataset, batch_size, mode):
   depth_major = tf.reshape(tf.slice(record, [label_offset + label_bytes], [image_bytes]),
                            [depth, image_size, image_size])
   # Convert from [depth, height, width] to [height, width, depth].
+  tf.summary.histogram('images_uint8', images)
   image = tf.cast(tf.transpose(depth_major, [1, 2, 0]), tf.float32) / 255
 
   if mode == 'train':
@@ -48,7 +49,7 @@ def build_input(dataset, batch_size, mode):
     # image = tf.image.random_brightness(image, max_delta=63. / 255.)
     # image = tf.image.random_saturation(image, lower=0.5, upper=1.5)
     # image = tf.image.random_contrast(image, lower=0.2, upper=1.8)
-    image = tf.image.per_image_standardization(image)
+    #image = tf.image.per_image_standardization(image)
 
     example_queue = tf.RandomShuffleQueue(
         capacity=16 * batch_size,
@@ -60,7 +61,7 @@ def build_input(dataset, batch_size, mode):
   else:
     image = tf.image.resize_image_with_crop_or_pad(
         image, image_size, image_size)
-    image = tf.image.per_image_standardization(image)
+    #image = tf.image.per_image_standardization(image)
 
     example_queue = tf.FIFOQueue(
         3 * batch_size,
@@ -81,5 +82,4 @@ def build_input(dataset, batch_size, mode):
   assert len(labels.get_shape()) == 1
 
   # Display the training images in the visualizer.
-  #tf.summary.image('images', images)
   return images, labels
