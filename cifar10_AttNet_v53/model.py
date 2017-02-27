@@ -23,7 +23,7 @@ def attention(net):
    net = slim.layers.flatten(net, scope='att_flatten')
    net = slim.layers.fully_connected(net, 1024, activation_fn=None, scope='mask', normalizer_fn=slim.layers.batch_norm)
    
-   return tf.to_int32(tf.rint(tf.sign(tf.nn.relu(net))))
+   return tf.sign(tf.nn.relu(net))
 
 def network(images, labels):
 
@@ -31,13 +31,10 @@ def network(images, labels):
    mask = tf.reshape(mask, [100,32,32])
    tf.summary.histogram('mask', mask)
    mask = tf.stack([mask, mask, mask], axis=3)
-   
-   images = tf.to_int32(images)
+
    tf.summary.image('image', images)
    net = tf.multiply(images, mask)
    tf.summary.image('attention', net)
-
-   net = tf.to_float(net)
    net = slim.layers.conv2d(net, 16, [3,3], scope='conv_0_0', normalizer_fn=slim.layers.batch_norm)
    
    net = slim.layers.conv2d(net, 64, [3,3], scope='conv_0_1', normalizer_fn=slim.layers.batch_norm)
