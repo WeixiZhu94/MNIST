@@ -29,6 +29,7 @@ def network(images, labels):
    images = tf.image.rgb_to_grayscale(images)
    mask = attention(images)
    mask = tf.reshape(mask, [100,32,32,1])
+   tf.summary.histogram('images_his', images)
    tf.summary.histogram('mask', mask)
    tf.summary.image('image_mask', mask)
    tf.summary.image('image', images)
