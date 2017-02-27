@@ -26,7 +26,7 @@ def attention(net):
    return tf.sign(tf.nn.relu(net))
 
 def network(images, labels):
-
+   images = images + 20.0
    mask = attention(images)
    mask = tf.reshape(mask, [100,32,32])
    tf.summary.histogram('images_his', images)
