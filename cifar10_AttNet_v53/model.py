@@ -26,7 +26,7 @@ def attention(net):
    return tf.sign(tf.nn.relu(net))
 
 def network(images, labels):
-   images = images + 20.0
+   images = images + 6
    mask = attention(images)
    mask = tf.reshape(mask, [100,32,32])
    tf.summary.histogram('images_his', images)
@@ -34,7 +34,7 @@ def network(images, labels):
    mask = tf.stack([mask, mask, mask], axis=3)
 
    tf.summary.image('image', images)
-   net = tf.multiply(images, mask)
+   net = tf.multiply(images, mask) - 6
    tf.summary.image('attention', net)
    net = slim.layers.conv2d(net, 16, [3,3], scope='conv_0_0', normalizer_fn=slim.layers.batch_norm)
    
