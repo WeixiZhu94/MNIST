@@ -10,7 +10,7 @@ TEST_FILE = 'test.tfrecords'
 def _cat2(labels):
    table1 = tf.constant([1,1,0,0,0,0,0,0,1,1])
    table2 = 1 - table1
-   A = tf.stack([table1, table2], axis=0)
+   A = tf.transpose(tf.stack([table1, table2], axis=0))
    one_hot = tf.one_hot(labels, 10, 1, 0, axis=-1)
    labels_cat2 = tf.matmul(one_hot, A)
    labels_cat2 = tf.argmax(labels_cat2, axis=1)
