@@ -20,7 +20,7 @@ def main(train_dir, batch_size, num_batches, log_dir):
 
     tf.summary.scalar('loss', total_loss)
 
-    optimizer = tf.train.GradientDescentOptimizer(0.1)
+    optimizer = tf.train.GradientDescentOptimizer(0.001)
     train_op = slim.learning.create_train_op(total_loss, optimizer, summarize_gradients=True)
 
     slim.learning.train(train_op, log_dir, save_summaries_secs=20, save_interval_secs=20)
