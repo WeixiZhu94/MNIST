@@ -1,5 +1,6 @@
 import tensorflow as tf
 import tensorflow.contrib.slim as slim
+import sys
 from model import network
 from cifar_input import build_input
 
