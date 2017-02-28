@@ -31,10 +31,13 @@ def network(images, labels):
    
    with tf.variable_scope('feature_64'):
       net = _residual(net, 16, 64)
+   net = slim.layers.max_pool2d(net, [2,2], scope='pool_1')
    with tf.variable_scope('feature_256'):
       net = _residual(net, 64, 256)
+   net = slim.layers.max_pool2d(net, [2,2], scope='pool_2')
    with tf.variable_scope('feature_1024'):
       net = _residual(net, 256, 1024)
+   net = slim.layers.max_pool2d(net, [2,2], scope='pool_3')
 
    with tf.variable_scope('res_last'):
       net = slim.layers.batch_norm(net)
