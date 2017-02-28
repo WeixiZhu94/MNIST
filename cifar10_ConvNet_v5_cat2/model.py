@@ -15,7 +15,7 @@ def _cat2(labels):
    labels_cat2 = tf.matmul(one_hot, A)
    labels_cat2 = tf.argmax(labels_cat2, axis=1)
    assert len(labels_cat2.get_shape()) == 1
-   assert labels_cat2.get_shape()[0] == batch_size
+   assert labels_cat2.get_shape()[0] == 100
 
 def network(images, labels):
 
