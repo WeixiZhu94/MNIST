@@ -12,7 +12,7 @@ def _cat2(labels):
    #table2 = tf.constant([0,0,1,1,1,1,1,1,0,0])
    #A = tf.transpose(tf.stack([table1, table2], axis=0))
    one_hot = tf.one_hot(labels, 10, 1.0, 0.0, axis=-1)
-   cat_1_sparse = tf.SparseTensor(indices = [[0,1], [1,1], [2,0], [3,0], [4,0], [5,0], [6,0], [7,0], [8,1], [9,1]], values = [1,1,1,1,1,1,1,1,1,1], shape = [10, 2])
+   cat_1_sparse = tf.SparseTensor(indices = [[0,1], [1,1], [2,0], [3,0], [4,0], [5,0], [6,0], [7,0], [8,1], [9,1]], values = [1,1,1,1,1,1,1,1,1,1], dense_shape = [10, 2])
    value = tf.sparse_tensor_to_dense(cat_1_sparse)
    value = tf.cast(value, tf.float32)
    w = tf.get_variable('L1', initializer=value, trainable=False)
