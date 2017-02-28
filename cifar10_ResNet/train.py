@@ -30,6 +30,8 @@ def main(train_dir, batch_size, num_batches, log_dir):
         tfprof_options=tf.contrib.tfprof.model_analyzer.FLOAT_OPS_OPTIONS)
 
     tf.summary.scalar('loss', total_loss)
+    predictions = tf.argmax(predictions, axis=1)
+    tf.summary.scalar('accuracy', slim.metrics.accuracy(predictions, labels))
 
     optimizer = tf.train.GradientDescentOptimizer(0.1)
     train_op = slim.learning.create_train_op(total_loss, optimizer, summarize_gradients=True)
