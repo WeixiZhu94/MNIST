@@ -7,7 +7,7 @@ TRAIN_FILE = 'train.tfrecords'
 VALIDATION_FILE = 'train.tfrecords'
 TEST_FILE = 'test.tfrecords'
 
-def network(images, labels):
+def network(net, labels):
 
    net_1 = slim.layers.conv2d(net, 8, [1,1], scope='init_conv_1', normalizer_fn=slim.layers.batch_norm)
    net_2 = slim.layers.conv2d(net, 4, [3,3], scope='init_conv_2', normalizer_fn=slim.layers.batch_norm)
