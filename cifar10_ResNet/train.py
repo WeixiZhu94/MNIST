@@ -8,7 +8,7 @@ flags.DEFINE_string('train_dir', '../data',
                     'Directory with the training data.')
 flags.DEFINE_integer('batch_size', 100, 'Batch size.')
 flags.DEFINE_integer('num_batches', None, 'Num of batches to train (epochs).')
-flags.DEFINE_string('log_dir', '../log/cifar10_ConvNet/train',
+flags.DEFINE_string('log_dir', '../log/cifar10_ResNet/train',
                     'Directory with the log data.')
 FLAGS = flags.FLAGS
 
@@ -17,6 +17,16 @@ def main(train_dir, batch_size, num_batches, log_dir):
 
     images, labels = build_input('cifar10', 100, 'train')
     predictions, total_loss = network(images, labels)
+
+    param_stats = tf.contrib.tfprof.model_analyzer.print_model_analysis(
+        tf.get_default_graph(),
+        tfprof_options=tf.contrib.tfprof.model_analyzer.
+            TRAINABLE_VARS_PARAMS_STAT_OPTIONS)
+    sys.stdout.write('total_params: %d\n' % param_stats.total_parameters)
+
+    tf.contrib.tfprof.model_analyzer.print_model_analysis(
+        tf.get_default_graph(),
+        tfprof_options=tf.contrib.tfprof.model_analyzer.FLOAT_OPS_OPTIONS)
 
     tf.summary.scalar('loss', total_loss)
 
