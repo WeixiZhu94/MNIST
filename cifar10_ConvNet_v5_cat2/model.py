@@ -12,7 +12,7 @@ def _cat2(labels):
    table2 = tf.constant([0,0,1,1,1,1,1,1,0,0])
    A = tf.transpose(tf.stack([table1, table2], axis=0))
    one_hot = tf.one_hot(labels, 10, 1, 0, axis=-1)
-   return tf.argmax(tf.matmul(one_hot, A), axis=1)
+   return tf.matmul(one_hot, A)
 
 def network(images, labels):
 
@@ -36,5 +36,5 @@ def network(images, labels):
    logits = slim.layers.fully_connected(net, 2, activation_fn=None, scope='logits')
    
    labels_cat2 = _cat2(labels)
-   total_loss = tf.losses.sparse_softmax_cross_entropy(logits, labels_cat2)
+   total_loss = tf.losses.softmax_cross_entropy(logits, labels_cat2)
    return logits, total_loss, labels_cat2

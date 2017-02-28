@@ -19,6 +19,7 @@ def main(train_dir, batch_size, num_batches, log_dir):
     predictions, total_loss, labels_cat2 = network(images, labels)
     tf.summary.scalar('loss', total_loss)
 
+    labels_cat2 = tf.argmax(labels_cat2, axis=1)
     predictions = tf.argmax(predictions, axis=1)
     tf.summary.scalar('accuracy_cat2', slim.metrics.accuracy(predictions, labels_cat2))
 
