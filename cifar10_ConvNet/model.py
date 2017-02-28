@@ -28,6 +28,5 @@ def network(images, labels):
    net = slim.layers.fully_connected(net, 512, scope='fully_connected_2')
    logits = slim.layers.fully_connected(net, 10, activation_fn=None, scope='logits')
    
-   slim.losses.sparse_softmax_cross_entropy(logits, labels)
-   total_loss = slim.losses.get_total_loss()
+   total_loss = tf.losses.sparse_softmax_cross_entropy(labels, logits)
    return logits, total_loss
