@@ -31,7 +31,7 @@ def main(train_dir, batch_size, num_batches, log_dir):
 
     tf.summary.scalar('loss', total_loss)
     predictions = tf.argmax(predictions, axis=1)
-    tf.summary.scalar('accuracy', slim.metrics.accuracy(predictions, labels))
+    tf.summary.scalar('accuracy', slim.metrics.accuracy(predictions, tf.to_int64(labels)))
 
     optimizer = tf.train.GradientDescentOptimizer(0.1)
     train_op = slim.learning.create_train_op(total_loss, optimizer, summarize_gradients=True)
