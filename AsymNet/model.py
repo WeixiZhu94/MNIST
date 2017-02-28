@@ -7,6 +7,18 @@ TRAIN_FILE = 'train.tfrecords'
 VALIDATION_FILE = 'train.tfrecords'
 TEST_FILE = 'test.tfrecords'
 
+def _AsymConv_0(net, name):
+   net_1 = slim.layers.conv2d(net, 10, [3,3], scope=name+'_1', normalizer_fn=slim.layers.batch_norm)
+   net_2 = slim.layers.conv2d(net, 4, [5,5], scope=name+'_2', normalizer_fn=slim.layers.batch_norm)
+   net_3 = slim.layers.conv2d(net, 2, [7,7], scope=name+'_3', normalizer_fn=slim.layers.batch_norm)
+   return tf.concat([net_1, net_2, net_3], 3)
+
+def _AsymConv_1(net, name):
+   net_1 = slim.layers.conv2d(net, 20, [3,3], scope=name+'_1', normalizer_fn=slim.layers.batch_norm)
+   net_2 = slim.layers.conv2d(net, 8, [5,5], scope=name+'_2', normalizer_fn=slim.layers.batch_norm)
+   net_3 = slim.layers.conv2d(net, 4, [7,7], scope=name+'_3', normalizer_fn=slim.layers.batch_norm)
+   return tf.concat([net_1, net_2, net_3], 3)
+
 def _AsymConv(net, name):
    net_1 = slim.layers.conv2d(net, 65, [3,3], scope=name+'_1', normalizer_fn=slim.layers.batch_norm)
    net_2 = slim.layers.conv2d(net, 23, [5,5], scope=name+'_2', normalizer_fn=slim.layers.batch_norm)
@@ -15,14 +27,14 @@ def _AsymConv(net, name):
    
 def network(net, labels):
 
-   net = slim.layers.conv2d(net, 16, [3,3], scope='init_conv', normalizer_fn=slim.layers.batch_norm)
-
-   net = slim.layers.conv2d(net, 16, [3,3], scope='conv_1_1', normalizer_fn=slim.layers.batch_norm)
-   net = slim.layers.conv2d(net, 16, [3,3], scope='conv_1_2', normalizer_fn=slim.layers.batch_norm)
+   net = _AsymConv_0(net, 'conv_1_0')
+   net = _AsymConv_0(net, 'conv_1_1')
+   net = _AsymConv_0(net, 'conv_1_2')
    net = slim.layers.max_pool2d(net, [2,2], scope='pool_1')
 
-   net = slim.layers.conv2d(net, 32, [3,3], scope='conv_2_1', normalizer_fn=slim.layers.batch_norm)
-   net = slim.layers.conv2d(net, 32, [3,3], scope='conv_2_2', normalizer_fn=slim.layers.batch_norm)
+   net = _AsymConv_1(net, 'conv_2_0')
+   net = _AsymConv_1(net, 'conv_2_1')
+   net = _AsymConv_1(net, 'conv_2_2')
    net = slim.layers.max_pool2d(net, [2,2], scope='pool_2')
 
    net = _AsymConv(net, 'conv_3_1')
