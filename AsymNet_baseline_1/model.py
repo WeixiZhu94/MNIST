@@ -29,8 +29,10 @@ def network(net, labels):
    net_1 = slim.layers.conv2d(net, 100, [3,3], scope='conv_3_2', normalizer_fn=slim.layers.batch_norm)
    net_1 = slim.layers.conv2d(net, 100, [3,3], scope='conv_3_3', normalizer_fn=slim.layers.batch_norm)
    net_1 = slim.layers.conv2d(net, 100, [3,3], scope='conv_3_4', normalizer_fn=slim.layers.batch_norm)
-   net_1 = slim.layers.conv2d(net, 100, [3,3], scope='conv_3_5', normalizer_fn=slim.layers.batch_norm)
-   net_1 = slim.layers.conv2d(net, 100, [3,3], scope='conv_3_6', normalizer_fn=slim.layers.batch_norm)
+   net = slim.layers.max_pool2d(net, [2,2], scope='pool_3')
+
+   net_1 = slim.layers.conv2d(net, 100, [3,3], scope='conv_4_1', normalizer_fn=slim.layers.batch_norm)
+   net_1 = slim.layers.conv2d(net, 100, [3,3], scope='conv_4_2', normalizer_fn=slim.layers.batch_norm)
 
    net = tf.reduce_mean(net, [1,2])
    logits = slim.layers.fully_connected(net, 10, activation_fn=None, scope='logits', normalizer_fn=slim.layers.batch_norm)
