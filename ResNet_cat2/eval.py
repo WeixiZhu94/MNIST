@@ -33,7 +33,6 @@ def main(train_dir, batch_size, num_batches, log_dir, checkpoint_dir=None):
       # e.g running accuracy
       metrics_to_values, metrics_to_updates = slim.metrics.aggregate_metric_map({
           'accuracy_cat2': slim.metrics.streaming_accuracy(predictions, labels_cat2),
-          'streaming_mse': slim.metrics.streaming_mean_squared_error(predictions, labels),
       })
 
       # Define the streaming summaries to write:
