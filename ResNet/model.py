@@ -49,10 +49,11 @@ def network(images, labels):
    net = _residual(net, 'res_64_', 32, 64)
    net = _residual(net, 'res_64_', 64, 64)
    net = _residual(net, 'res_64_', 64, 64)
-
-   net = slim.layers.batch_norm(net)
-   net = tf.nn.relu(net)
-   net = tf.reduce_mean(net, [1,2])
+   
+   with tf.variable_scope('res_last'):
+      net = slim.layers.batch_norm(net)
+      net = tf.nn.relu(net)
+      net = tf.reduce_mean(net, [1,2])
 
    #net = slim.layers.fully_connected(net, 1024, scope='fully_connected', normalizer_fn=slim.layers.batch_norm)
    logits = slim.layers.fully_connected(net, 10, activation_fn=None, scope='logits', normalizer_fn=slim.layers.batch_norm)
