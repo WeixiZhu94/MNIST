@@ -16,16 +16,16 @@ def _cat2(labels):
 
 def _residual(net, name, in_filter, out_filter):
    # ori_net : not activated; net -> BN -> RELU
-   with tf.variable_scope('pre_act'):
+   with tf.variable_scope(name + 'pre_act'):
       ori_net = net
       net = slim.layers.batch_norm(net)
       net = tf.nn.relu(net)
-   with tf.variable_scope('residual'):
+   with tf.variable_scope(name + 'residual'):
       # net -> Weight -> BN -> RELU
       net = slim.layers.conv2d(net, out_filter, [3,3], scope=name+'conv_1', normalizer_fn=slim.layers.batch_norm)
       # net -> Weight
       net = slim.layers.conv2d(net, out_filter, [3,3], scope=name+'conv_2', activation_fn=None)
-   with tf.variable_scope('res_add'):
+   with tf.variable_scope(name + 'res_add'):
       if in_filter != out_filter:
          ori_net = tf.nn.avg_pool(ori_net, [1,1,1,1], [1,1,1,1], 'VALID')
          ori_net = tf.pad(ori_net, [[0,0],[0,0],[0,0],[(out_filter-in_filter)//2, (out_filter-in_filter)//2]])
@@ -36,19 +36,19 @@ def network(images, labels):
 
    net = slim.layers.conv2d(images, 16, [3,3], scope='res_init', normalizer_fn=slim.layers.batch_norm)
    
-   net = _residual(net, 'res_16_', 16, 16)
-   net = _residual(net, 'res_16_', 16, 16)
-   net = _residual(net, 'res_16_', 16, 16)
+   net = _residual(net, 'res_1_', 16, 16)
+   net = _residual(net, 'res_2_', 16, 16)
+   net = _residual(net, 'res_3_', 16, 16)
    net = slim.layers.max_pool2d(net, [2,2], scope='pool_1')
 
-   net = _residual(net, 'res_32_', 16, 32)
-   net = _residual(net, 'res_32_', 32, 32)
-   net = _residual(net, 'res_32_', 32, 32)
+   net = _residual(net, 'res_4_', 16, 32)
+   net = _residual(net, 'res_5_', 32, 32)
+   net = _residual(net, 'res_6_', 32, 32)
    net = slim.layers.max_pool2d(net, [2,2], scope='pool_2')
 
-   net = _residual(net, 'res_64_', 32, 64)
-   net = _residual(net, 'res_64_', 64, 64)
-   net = _residual(net, 'res_64_', 64, 64)
+   net = _residual(net, 'res_7_', 32, 64)
+   net = _residual(net, 'res_8_', 64, 64)
+   net = _residual(net, 'res_9_', 64, 64)
    
    with tf.variable_scope('res_last'):
       net = slim.layers.batch_norm(net)
