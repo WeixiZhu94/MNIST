@@ -12,7 +12,7 @@ def _cat2(labels):
    table2 = tf.constant([0,0,1,1,1,1,1,1,0,0])
    A = tf.transpose(tf.stack([table1, table2], axis=0))
    one_hot = tf.one_hot(labels, 10, 1, 0, axis=-1)
-   return tf.argmax(tf.matmul(one_hot, A))
+   return tf.argmax(tf.matmul(one_hot, A), axis=1)
 
 def _residual(net, name, in_filter, out_filter):
    # ori_net : not activated; net -> BN -> RELU
