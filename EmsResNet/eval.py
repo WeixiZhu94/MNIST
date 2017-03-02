@@ -1,7 +1,7 @@
 import tensorflow as tf
 
 import tensorflow.contrib.slim as slim
-from model import network
+from model import network, cat_0_network, cat_1_network
 from cifar_input import build_input
 
 
