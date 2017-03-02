@@ -29,7 +29,7 @@ def main(train_dir, batch_size, num_batches, log_dir):
     images, labels, images_cat_0, labels_cat_0, images_cat_1, labels_cat_1 = build_input('cifar10', 100, 'train')
     predictions, total_loss, labels_cat2 = network(images, labels)
     predictions_cat_0, loss_0 = cat_0_network(images_cat_0, labels_cat_0)
-    predictions_cat_1, loss_1 = cat_0_network(images_cat_1, labels_cat_1)
+    predictions_cat_1, loss_1 = cat_1_network(images_cat_1, labels_cat_1)
     
     report()
 
