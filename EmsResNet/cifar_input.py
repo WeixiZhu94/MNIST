@@ -96,7 +96,7 @@ def build_input(dataset, batch_size, mode):
   tf.train.add_queue_runner(tf.train.queue_runner.QueueRunner(
       example_queue, [example_enqueue_op] * num_threads))
 
-  if label == 0 || label == 1 || label == 8 || label == 9:
+  if label == 0 or label == 1 or label == 8 or label == 9:
     enqueue_cat_0_op = queue_cat_0.enqueue([image, label])
     tf.train.add_queue_runner(tf.train.queue_runner.QueueRunner(
         queue_cat_0, [enqueue_cat_0_op] * num_threads))
