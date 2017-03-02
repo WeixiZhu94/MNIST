@@ -96,16 +96,9 @@ def build_input(dataset, batch_size, mode):
   tf.train.add_queue_runner(tf.train.queue_runner.QueueRunner(
       example_queue, [example_enqueue_op] * num_threads))
 
-  assert label.get_shape()[0] == 1
-  assert len(label.get_shape()) == 1
-  if label == 0 or label == 1 or label == 8 or label == 9:
-    enqueue_cat_0_op = queue_cat_0.enqueue([image, label])
-    tf.train.add_queue_runner(tf.train.queue_runner.QueueRunner(
-        queue_cat_0, [enqueue_cat_0_op] * num_threads))
-  else:
-    enqueue_cat_1_op = queue_cat_1.enqueue([image, label])
-    tf.train.add_queue_runner(tf.train.queue_runner.QueueRunner(
-        queue_cat_1, [enqueue_cat_1_op] * num_threads))
+  cond_cat_0 = tf.logical_and(tf.less(label, 2), tf.greater(label, 7))
+  op = tf.cond(cond_cat_0, lambda: tf.train.queue_runner.QueueRunner(queue_cat_0, [queue_cat_0.enqueue([image, label])] * num_threads), lambda:tf.train.queue_runner.QueueRunner(queue_cat_1, [queue_cat_1.enqueue([image, label])] * num_threads))
+  tf.train.add_queue_runner(op)
 
   # Read 'batch' labels + images from the example queue.
   images, labels = example_queue.dequeue_many(batch_size)
