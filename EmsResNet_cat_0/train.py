@@ -38,7 +38,7 @@ def main(train_dir, batch_size, num_batches, log_dir):
     tf.summary.scalar('accuracy_cat_0', slim.metrics.accuracy(predictions_cat_0, tf.to_int64(labels_cat_0)))
 
 
-    optimizer = tf.train.GradientDescentOptimizer(0.1)
+    optimizer = tf.train.GradientDescentOptimizer(0.001)
     train_op = slim.learning.create_train_op(loss_0, optimizer, summarize_gradients=True)
 
     slim.learning.train(train_op, log_dir, save_summaries_secs=20, save_interval_secs=20)
