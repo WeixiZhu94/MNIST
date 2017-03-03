@@ -39,7 +39,7 @@ def main(train_dir, batch_size, num_batches, log_dir):
 
 
     optimizer = tf.train.GradientDescentOptimizer(0.1)
-    train_op = slim.learning.create_train_op(total_loss, optimizer, summarize_gradients=True)
+    train_op = slim.learning.create_train_op(loss_0, optimizer, summarize_gradients=True)
 
     slim.learning.train(train_op, log_dir, save_summaries_secs=20, save_interval_secs=20)
 
