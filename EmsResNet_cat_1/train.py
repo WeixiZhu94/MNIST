@@ -26,7 +26,7 @@ def report():
 
 def main(train_dir, batch_size, num_batches, log_dir):
 
-    images_cat_1, labels_cat_1 = build_input_cat_1('cifar10', 100, 'test')
+    images_cat_1, labels_cat_1 = build_input('cifar10', 100, 'test')
 
     predictions_cat_1, loss_1, _ = cat_1_network(images_cat_1, labels_cat_1)
     
