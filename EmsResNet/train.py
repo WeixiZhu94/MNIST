@@ -2,7 +2,7 @@ import tensorflow as tf
 import tensorflow.contrib.slim as slim
 import sys
 from model import network, cat_0_network, cat_1_network
-from cifar_input import build_input
+from cifar_input import build_input, build_input_cat_0, build_input_cat_1
 
 flags = tf.app.flags
 flags.DEFINE_string('train_dir', '../data',
