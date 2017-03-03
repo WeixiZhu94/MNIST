@@ -23,7 +23,7 @@ def main(train_dir, batch_size, num_batches, log_dir, checkpoint_dir=None):
     with tf.device('/cpu:0'):
       images_cat_0, labels_cat_0 = build_input_cat_0('cifar10', 100, 'test')
       
-      predictions_cat_0, loss_0, _ = network(images_cat_0, labels_cat_0)
+      predictions_cat_0, loss_0, _ = cat_0_network(images_cat_0, labels_cat_0)
     
       tf.summary.scalar('loss_0', loss_0)
     
