@@ -2,7 +2,7 @@ import tensorflow as tf
 
 import tensorflow.contrib.slim as slim
 from model import network, cat_0_network, cat_1_network
-from cifar_input import build_input
+from cifar_input import build_input, build_input_cat_0, build_input_cat_1
 
 
 flags = tf.app.flags
@@ -21,10 +21,13 @@ def main(train_dir, batch_size, num_batches, log_dir, checkpoint_dir=None):
     if checkpoint_dir is None:
         checkpoint_dir = log_dir
     with tf.device('/cpu:0'):
-      images, labels, images_cat_0, labels_cat_0, images_cat_1, labels_cat_1 = build_input('cifar10', 100, 'test')
+      images, labels = build_input('cifar10', 100, 'test')
+      images_cat_0, labels_cat_0 = build_input_cat_0('cifar10', 100, 'test')
+      images_cat_1, labels_cat_1 = build_input_cat_1('cifar10', 100, 'test')
+      
       predictions, total_loss, labels_cat2 = network(images, labels)
-      predictions_cat_0, loss_0 = cat_0_network(images_cat_0, labels_cat_0)
-      predictions_cat_1, loss_1 = cat_1_network(images_cat_1, labels_cat_1)
+      predictions_cat_0, loss_0 = network(images_cat_0, labels_cat_0)
+      predictions_cat_1, loss_1 = network(images_cat_1, labels_cat_1)
     
       tf.summary.scalar('loss', total_loss)
       tf.summary.scalar('loss_0', loss_0)

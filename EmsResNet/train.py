@@ -26,31 +26,32 @@ def report():
 
 def main(train_dir, batch_size, num_batches, log_dir):
 
-    images, labels, images_cat_0, labels_cat_0, images_cat_1, labels_cat_1 = build_input('cifar10', 100, 'train')
+    images, labels = build_input('cifar10', 100, 'train')
+    images_cat_0, labels_cat_0 = build_input_cat_0('cifar10', 100, 'test')
+    images_cat_1, labels_cat_1 = build_input_cat_1('cifar10', 100, 'test')
+
     predictions, total_loss, labels_cat2 = network(images, labels)
-    predictions_cat_0, loss_0 = cat_0_network(images_cat_0, labels_cat_0)
-    predictions_cat_1, loss_1 = cat_1_network(images_cat_1, labels_cat_1)
+    predictions_cat_0, loss_0, labels_cat_0_ = network(images_cat_0, labels_cat_0)
+    predictions_cat_1, loss_1, labels_cat_1_ = network(images_cat_1, labels_cat_1)
     
     report()
 
     tf.summary.scalar('loss', total_loss)
     tf.summary.scalar('loss_0', loss_0)
     tf.summary.scalar('loss_1', loss_1)
-    predictions = tf.argmax(predictions, axis=1)
-    tf.summary.scalar('accuracy', slim.metrics.accuracy(predictions, tf.to_int64(labels_cat2)))
 
+    predictions = tf.argmax(predictions, axis=1)
     predictions_cat_0 = tf.argmax(predictions_cat_0, axis=1)
     predictions_cat_1 = tf.argmax(predictions_cat_1, axis=1)
-    tf.summary.scalar('accuracy_cat_0', slim.metrics.accuracy(predictions_cat_0, tf.to_int64(labels_cat_0)))
-    tf.summary.scalar('accuracy_cat_1', slim.metrics.accuracy(predictions_cat_1, tf.to_int64(labels_cat_1)))
+    tf.summary.scalar('accuracy', slim.metrics.accuracy(predictions, tf.to_int64(labels_cat2)))
+    tf.summary.scalar('accuracy_cat_0', slim.metrics.accuracy(predictions_cat_0, tf.to_int64(labels_cat_0_)))
+    tf.summary.scalar('accuracy_cat_1', slim.metrics.accuracy(predictions_cat_1, tf.to_int64(labels_cat_1_)))
 
 
     optimizer = tf.train.GradientDescentOptimizer(0.1)
     train_op = slim.learning.create_train_op(total_loss, optimizer, summarize_gradients=True)
-    train_op_1 = slim.learning.create_train_op(loss_0, optimizer, summarize_gradients=True)
-    train_op_2 = slim.learning.create_train_op(loss_1, optimizer, summarize_gradients=True)
 
-    slim.learning.train([train_op] + train_op_1 + train_op_2, log_dir, save_summaries_secs=20, save_interval_secs=20)
+    slim.learning.train(train_op, log_dir, save_summaries_secs=20, save_interval_secs=20)
 
 
 if __name__ == '__main__':
