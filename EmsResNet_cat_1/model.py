@@ -120,5 +120,7 @@ def cat_1_network(images, labels):
    #net = slim.layers.fully_connected(net, 1024, scope='fully_connected', normalizer_fn=slim.layers.batch_norm)
    logits = slim.layers.fully_connected(net, 10, activation_fn=None, scope=prefix+'logits', normalizer_fn=slim.layers.batch_norm)
 
+   labels_cat2 = _cat2(labels)
    total_loss = tf.losses.sparse_softmax_cross_entropy(labels,logits)
-   return logits, total_loss
+   return logits, total_loss, labels_cat2
+
