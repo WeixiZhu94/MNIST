@@ -10,9 +10,9 @@ flags.DEFINE_string('train_dir', '../data',
                     'Directory with the training data.')
 flags.DEFINE_integer('batch_size', 100, 'Batch size.')
 flags.DEFINE_integer('num_batches', 100, 'Num of batches to evaluate.')
-flags.DEFINE_string('log_dir', '../log/EmsResNet_cat_1/eval',
+flags.DEFINE_string('log_dir', '../log/EmsResNet_vali/eval',
                     'Directory where to log data.')
-flags.DEFINE_string('checkpoint_dir', '../log/EmsResNet_cat_1/train',
+flags.DEFINE_string('checkpoint_dir', '../log/EmsResNet_vali/train',
                     'Directory with the model checkpoint data.')
 FLAGS = flags.FLAGS
 
@@ -21,20 +21,20 @@ def main(train_dir, batch_size, num_batches, log_dir, checkpoint_dir=None):
     if checkpoint_dir is None:
         checkpoint_dir = log_dir
     with tf.device('/cpu:0'):
-      images_cat_1, labels_cat_1 = build_input_cat_1('cifar10', 100, 'test')
+      images, labels = build_input('cifar10', 100, 'test')
       
-      predictions_cat_1, loss_1, _ = cat_1_network(images_cat_1, labels_cat_1)
+      predictions, loss_1 = network(images, labels)
     
-      tf.summary.scalar('loss_1', loss_1)
+      tf.summary.scalar('loss', loss)
     
 
-      predictions_cat_1 = tf.argmax(predictions_cat_1, axis=1)
-      tf.summary.scalar('accuracy_cat_1', slim.metrics.accuracy(predictions_cat_1, tf.to_int64(labels_cat_1)))
+      predictions = tf.argmax(predictions, axis=1)
+      tf.summary.scalar('accuracy_cat_1', slim.metrics.accuracy(predictions, tf.to_int64(labels)))
 
       # These are streaming metrics which compute the "running" metric,
       # e.g running accuracy
       metrics_to_values, metrics_to_updates = slim.metrics.aggregate_metric_map({
-          'accuracy_cat_1': slim.metrics.streaming_accuracy(predictions_cat_1, labels_cat_1),
+          'accuracy_cat_1': slim.metrics.streaming_accuracy(predictions, labels),
       })
 
       # Define the streaming summaries to write:
