@@ -24,6 +24,20 @@ def _cat2(labels):
    one_hot = tf.one_hot(labels, 10, 1, 0, axis=-1)
    return tf.argmax(tf.matmul(one_hot, A), axis=1)
 
+""" activate x before using any _higher """
+def _cat1_logits(logits):
+   """FullyConnected layer for Lv_1 category."""
+   cat_1_sparse = tf.SparseTensor(indices = [[0,0], [1,1], [2,4], [3,3], [4,3], [5,3], [6,5], [7,3], [8,2], [9,1]], values = [1,1,1,1,1,1,1,1,1,1], shape = [10, 6])
+   value = tf.sparse_tensor_to_dense(cat_1_sparse)
+   value = tf.cast(value, tf.float32)
+   w = tf.get_variable('L1', initializer=value, trainable=False)
+   return tf.matmul(logits, tf.to_float32(w))
+
+def _cat2_logits(logits):
+   table1 = tf.constant([1,1,0,0,0,0,0,0,1,1])
+   table2 = tf.constant([0,0,1,1,1,1,1,1,0,0])
+   A = tf.transpose(tf.stack([table1, table2], axis=0))
+   return tf.matmul(logits, tf.to_float32（A）)
 
 def _residual(net, in_filter, out_filter, prefix):
    # ori_net : not activated; net -> BN -> RELU
