@@ -10,7 +10,7 @@ TEST_FILE = 'test.tfrecords'
 """ activate x before using any _higher """
 def _cat1(labels):
    """FullyConnected layer for Lv_1 category."""
-   cat_1_sparse = tf.SparseTensor(indices = [[0,0], [1,1], [2,4], [3,3], [4,3], [5,3], [6,5], [7,3], [8,2], [9,1]], values = [1,1,1,1,1,1,1,1,1,1], shape = [10, 6])
+   cat_1_sparse = tf.SparseTensor(indices = [[0,0], [1,1], [2,4], [3,3], [4,3], [5,3], [6,5], [7,3], [8,2], [9,1]], values = [1,1,1,1,1,1,1,1,1,1], dense_shape = [10, 6])
    value = tf.sparse_tensor_to_dense(cat_1_sparse)
    value = tf.cast(value, tf.int32)
    w = tf.get_variable('L1', initializer=value, trainable=False)
@@ -27,7 +27,7 @@ def _cat2(labels):
 """ activate x before using any _higher """
 def _cat1_logits(logits):
    """FullyConnected layer for Lv_1 category."""
-   cat_1_sparse = tf.SparseTensor(indices = [[0,0], [1,1], [2,4], [3,3], [4,3], [5,3], [6,5], [7,3], [8,2], [9,1]], values = [1,1,1,1,1,1,1,1,1,1], shape = [10, 6])
+   cat_1_sparse = tf.SparseTensor(indices = [[0,0], [1,1], [2,4], [3,3], [4,3], [5,3], [6,5], [7,3], [8,2], [9,1]], values = [1,1,1,1,1,1,1,1,1,1], dense_shape = [10, 6])
    value = tf.sparse_tensor_to_dense(cat_1_sparse)
    value = tf.cast(value, tf.int32)
    w = tf.get_variable('L2', initializer=value, trainable=False)
