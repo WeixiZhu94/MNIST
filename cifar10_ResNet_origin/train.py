@@ -11,6 +11,7 @@ flags.DEFINE_integer('batch_size', 100, 'Batch size.')
 flags.DEFINE_integer('num_batches', None, 'Num of batches to train (epochs).')
 flags.DEFINE_string('log_dir', '../log_cifar10_cat/origin/train',
                     'Directory with the log data.')
+flags.DEFINE_float('lrn', 0.1, 'learning_rate')
 FLAGS = flags.FLAGS
 
 def report():
@@ -24,7 +25,7 @@ def report():
         tf.get_default_graph(),
         tfprof_options=tf.contrib.tfprof.model_analyzer.FLOAT_OPS_OPTIONS)
 
-def main(train_dir, batch_size, num_batches, log_dir):
+def main(train_dir, batch_size, num_batches, log_dir, lrn):
 
     images, labels = build_input('cifar10', 100, 'train')
     logits, logits_cat1, logits_cat2, loss, loss_cat1, loss_cat2, labels_cat1, labels_cat2 = network(images, labels)
@@ -43,7 +44,6 @@ def main(train_dir, batch_size, num_batches, log_dir):
     tf.summary.scalar('accuracy_cat_1', slim.metrics.accuracy(logits_cat1, tf.to_int64(labels_cat1)))
     tf.summary.scalar('accuracy_cat_2', slim.metrics.accuracy(logits_cat2, tf.to_int64(labels_cat2)))
 
-    lrn = 0.1
     optimizer = tf.train.GradientDescentOptimizer(lrn)
     tf.summary.scalar('learning_rate', lrn)
     total_loss = loss
@@ -56,4 +56,5 @@ if __name__ == '__main__':
     main(FLAGS.train_dir,
          FLAGS.batch_size,
          FLAGS.num_batches,
-         FLAGS.log_dir)
+         FLAGS.log_dir,
+         FLAGS.lrn)
