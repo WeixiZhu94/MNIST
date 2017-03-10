@@ -15,7 +15,7 @@ def _cat1(labels):
    value = tf.cast(value, tf.float32)
    w = tf.get_variable('L1', initializer=value, trainable=False)
    one_hot = tf.one_hot(labels, 10, 1, 0, axis=-1)
-   return tf.argmax(tf.matmul(x, w), axis=1)
+   return tf.argmax(tf.matmul(one_hot, w), axis=1)
 
 def _cat2(labels):
    table1 = tf.constant([1,1,0,0,0,0,0,0,1,1])
