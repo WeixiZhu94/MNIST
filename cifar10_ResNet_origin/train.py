@@ -43,21 +43,13 @@ def main(train_dir, batch_size, num_batches, log_dir):
     tf.summary.scalar('accuracy_cat_1', slim.metrics.accuracy(logits_cat1, tf.to_int64(labels_cat1)))
     tf.summary.scalar('accuracy_cat_2', slim.metrics.accuracy(logits_cat2, tf.to_int64(labels_cat2)))
 
-    optimizer = tf.train.GradientDescentOptimizer(0.1)
+    lrn = 0.1
+    optimizer = tf.train.GradientDescentOptimizer(lrn)
+    tf.summary.scalar('learning_rate', lrn)
     total_loss = loss
+    train_op = slim.learning.create_train_op(total_loss, optimizer, summarize_gradients=True)
 
-    global_step = tf.Variable(0, trainable=False)
-    starter_learning_rate = 0.1
-    learning_rate = tf.train.exponential_decay(starter_learning_rate, global_step,
-                                               32000, 0.1, staircase=True)
-    tf.summary.scalar('learning_rate', learning_rate)
-    # Passing global_step to minimize() will increment it at each step.
-    learning_step = (
-        tf.train.GradientDescentOptimizer(learning_rate)
-        .minimize(total_loss, global_step=global_step)
-    )
-
-    slim.learning.train(learning_step, log_dir, save_summaries_secs=20, save_interval_secs=20)
+    slim.learning.train(train_op, log_dir, save_summaries_secs=20, save_interval_secs=20)
 
 
 if __name__ == '__main__':
