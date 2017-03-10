@@ -9,7 +9,7 @@ flags.DEFINE_string('train_dir', '../data',
                     'Directory with the training data.')
 flags.DEFINE_integer('batch_size', 100, 'Batch size.')
 flags.DEFINE_integer('num_batches', None, 'Num of batches to train (epochs).')
-flags.DEFINE_string('log_dir', '../log_cifar10_cat/cat_all/train',
+flags.DEFINE_string('log_dir', '../log_cifar10_cat/origin/train',
                     'Directory with the log data.')
 FLAGS = flags.FLAGS
 
@@ -45,9 +45,19 @@ def main(train_dir, batch_size, num_batches, log_dir):
 
     optimizer = tf.train.GradientDescentOptimizer(0.1)
     total_loss = loss + loss_cat1 + loss_cat2
-    train_op = slim.learning.create_train_op(total_loss, optimizer, summarize_gradients=True)
 
-    slim.learning.train(train_op, log_dir, save_summaries_secs=20, save_interval_secs=20)
+    global_step = tf.Variable(0, trainable=False)
+    starter_learning_rate = 0.1
+    learning_rate = tf.train.exponential_decay(starter_learning_rate, global_step,
+                                               32000, 0.1, staircase=True)
+    tf.summary.scalar('learning_rate', learning_rate)
+    # Passing global_step to minimize() will increment it at each step.
+    learning_step = (
+        tf.train.GradientDescentOptimizer(learning_rate)
+        .minimize(total_loss, global_step=global_step)
+    )
+
+    slim.learning.train(learning_step, log_dir, save_summaries_secs=20, save_interval_secs=20)
 
 
 if __name__ == '__main__':
