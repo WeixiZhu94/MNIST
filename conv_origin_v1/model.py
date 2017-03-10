@@ -31,13 +31,15 @@ def _cat1_logits(logits):
    value = tf.sparse_tensor_to_dense(cat_1_sparse)
    value = tf.cast(value, tf.int32)
    w = tf.get_variable('L2', initializer=value, trainable=False)
-   return tf.matmul(logits, tf.to_float(w))
+   exp = tf.exp(logits)
+   return tf.log(tf.matmul(exp, tf.to_float(w)))
 
 def _cat2_logits(logits):
    table1 = tf.constant([1,1,0,0,0,0,0,0,1,1])
    table2 = tf.constant([0,0,1,1,1,1,1,1,0,0])
    A = tf.transpose(tf.stack([table1, table2], axis=0))
-   return tf.matmul(logits, tf.to_float(A))
+   exp = tf.exp(logits)
+   return tf.log(tf.matmul(exp, tf.to_float(A)))
 
 def _residual(net, in_filter, out_filter, prefix):
    # ori_net : not activated; net -> BN -> RELU
