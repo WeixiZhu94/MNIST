@@ -59,6 +59,7 @@ def _residual(net, in_filter, out_filter, prefix):
 
 def network(images, labels):
 
+   global_step = tf.contrib.framework.get_or_create_global_step()
    net = slim.layers.conv2d(images, 16, [3,3], scope='res_init', normalizer_fn=slim.layers.batch_norm)
    
    net = _residual(net, 16, 16, 'unit_16_1')
