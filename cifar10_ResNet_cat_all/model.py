@@ -83,8 +83,8 @@ def network(images, labels):
 
    #net = slim.layers.fully_connected(net, 1024, scope='fully_connected', normalizer_fn=slim.layers.batch_norm)
    logits = slim.layers.fully_connected(net, 10, activation_fn=None, scope='logits', normalizer_fn=slim.layers.batch_norm)
-   logits_cat1 = _cat1(logits)
-   logits_cat2 = _cat2(logits)
+   logits_cat1 = _cat1_logits(logits)
+   logits_cat2 = _cat2_logits(logits)
    
    labels_cat1 = _cat1(labels)
    labels_cat2 = _cat2(labels)
