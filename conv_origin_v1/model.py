@@ -7,15 +7,20 @@ TRAIN_FILE = 'train.tfrecords'
 VALIDATION_FILE = 'train.tfrecords'
 TEST_FILE = 'test.tfrecords'
 
-""" activate x before using any _higher """
 def _cat1(labels):
-   """FullyConnected layer for Lv_1 category."""
-   cat_1_sparse = tf.SparseTensor(indices = [[0,0], [1,1], [2,4], [3,3], [4,3], [5,3], [6,5], [7,3], [8,2], [9,1]], values = [1,1,1,1,1,1,1,1,1,1], dense_shape = [10, 6])
-   value = tf.sparse_tensor_to_dense(cat_1_sparse)
-   value = tf.cast(value, tf.int32)
-   w = tf.get_variable('L1', initializer=value, trainable=False)
+   table1 = tf.constant([1,0,0,0,0,0])
+   table2 = tf.constant([0,1,0,0,0,0])
+   table3 = tf.constant([0,0,0,0,1,0])
+   table4 = tf.constant([0,0,0,1,0,0])
+   table5 = tf.constant([0,0,0,1,0,0])
+   table6 = tf.constant([0,0,0,1,0,0])
+   table7 = tf.constant([0,0,0,0,0,1])
+   table8 = tf.constant([0,0,0,1,0,0])
+   table9 = tf.constant([0,0,1,0,0,0])
+   table0 = tf.constant([0,1,0,0,0,0])
+   A = tf.stack([table1, table2, table3, table4, table5, table6, table7, table8, table9, table0], axis=0)
    one_hot = tf.one_hot(labels, 10, 1, 0, axis=-1)
-   return tf.argmax(tf.matmul(one_hot, w), axis=1)
+   return tf.argmax(tf.matmul(one_hot, A), axis=1)
 
 def _cat2(labels):
    table1 = tf.constant([1,1,0,0,0,0,0,0,1,1])
@@ -24,13 +29,18 @@ def _cat2(labels):
    one_hot = tf.one_hot(labels, 10, 1, 0, axis=-1)
    return tf.argmax(tf.matmul(one_hot, A), axis=1)
 
-""" activate x before using any _higher """
 def _cat1_logits(logits):
-   """FullyConnected layer for Lv_1 category."""
-   cat_1_sparse = tf.SparseTensor(indices = [[0,0], [1,1], [2,4], [3,3], [4,3], [5,3], [6,5], [7,3], [8,2], [9,1]], values = [1,1,1,1,1,1,1,1,1,1], dense_shape = [10, 6])
-   value = tf.sparse_tensor_to_dense(cat_1_sparse)
-   value = tf.cast(value, tf.int32)
-   w = tf.get_variable('L2', initializer=value, trainable=False)
+   table1 = tf.constant([1,0,0,0,0,0])
+   table2 = tf.constant([0,1,0,0,0,0])
+   table3 = tf.constant([0,0,0,0,1,0])
+   table4 = tf.constant([0,0,0,1,0,0])
+   table5 = tf.constant([0,0,0,1,0,0])
+   table6 = tf.constant([0,0,0,1,0,0])
+   table7 = tf.constant([0,0,0,0,0,1])
+   table8 = tf.constant([0,0,0,1,0,0])
+   table9 = tf.constant([0,0,1,0,0,0])
+   table0 = tf.constant([0,1,0,0,0,0])
+   A = tf.stack([table1, table2, table3, table4, table5, table6, table7, table8, table9, table0], axis=0)
    exp = tf.exp(logits)
    return tf.log(tf.matmul(exp, tf.to_float(w)))
 
