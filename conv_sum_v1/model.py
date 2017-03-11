@@ -94,8 +94,6 @@ def network(images, labels):
    net = slim.layers.max_pool2d(net, [2,2], scope='pool_3')
 
    with tf.variable_scope('res_last'):
-      net = slim.layers.batch_norm(net)
-      net = tf.nn.relu(net)
       net = tf.reduce_mean(net, [1,2])
 
    #net = slim.layers.fully_connected(net, 1024, scope='fully_connected', normalizer_fn=slim.layers.batch_norm)
