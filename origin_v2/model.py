@@ -63,22 +63,19 @@ def network(images, labels):
    
    net = _residual(net, 16, 16, 'unit_16_1')
    net = _residual(net, 16, 16, 'unit_16_2')
-   net = _residual(net, 16, 16, 'unit_16_3')
    net = slim.layers.max_pool2d(net, [2,2], scope='pool_1')
 
    net = _residual(net, 16, 32, 'unit_32_1')
    net = _residual(net, 32, 32, 'unit_32_2')
-   net = _residual(net, 32, 32, 'unit_32_3')
    net = slim.layers.max_pool2d(net, [2,2], scope='pool_2')
 
    net = _residual(net, 32, 64, 'unit_64_1')
    net = _residual(net, 64, 64, 'unit_64_2')
-   net = _residual(net, 64, 64, 'unit_64_3')
    net = slim.layers.max_pool2d(net, [2,2], scope='pool_3')
 
    with tf.variable_scope('res_last'):
-      net = slim.layers.batch_norm(net)
-      net = tf.nn.relu(net)
+      #net = slim.layers.batch_norm(net)
+      #net = tf.nn.relu(net)
       net = tf.reduce_mean(net, [1,2])
 
    #net = slim.layers.fully_connected(net, 1024, scope='fully_connected', normalizer_fn=slim.layers.batch_norm)
