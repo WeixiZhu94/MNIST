@@ -27,7 +27,7 @@ def report():
 
 def main(train_dir, batch_size, num_batches, log_dir, lrn):
 
-    images, labels = build_input('cifar10', 100, 'train')
+    images, labels = build_input('cifar10', 128, 'train')
     logits, logits_cat1, logits_cat2, loss, loss_cat1, loss_cat2, labels_cat1, labels_cat2 = network(images, labels)
     
     report()
