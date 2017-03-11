@@ -48,8 +48,9 @@ def main(train_dir, batch_size, num_batches, log_dir, lrn):
     tf.summary.scalar('learning_rate', lrn)
     total_loss = loss
     #train_op = slim.learning.create_train_op(total_loss, optimizer, summarize_gradients=True)
-    global_step = tf.Variable(0, name='global_step', trainable=False)
-    train_op = optimizer.minimize(total_loss, global_step=global_step)
+    step = tf.Variable(0, name='step', trainable=False, type=uint32)
+    train_op = optimizer.minimize(total_loss, global_step=step)
+
     slim.learning.train(train_op, log_dir, save_summaries_secs=20, save_interval_secs=20)
 
 
