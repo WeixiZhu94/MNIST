@@ -79,15 +79,12 @@ def network(images, labels):
    net = slim.layers.conv2d(images, 16, [3,3], scope='res_init', normalizer_fn=slim.layers.batch_norm)
    
    net = _bi_conv(net, 16, 16, 'unit_16_1')
-   net = _bi_conv(net, 16, 16, 'unit_16_2')
    net = slim.layers.max_pool2d(net, [2,2], scope='pool_1')
 
    net = _bi_conv(net, 16, 32, 'unit_32_1')
-   net = _bi_conv(net, 32, 32, 'unit_32_2')
    net = slim.layers.max_pool2d(net, [2,2], scope='pool_2')
 
    net = _bi_conv(net, 32, 64, 'unit_64_1')
-   net = _bi_conv(net, 64, 64, 'unit_64_2')
    net = slim.layers.max_pool2d(net, [2,2], scope='pool_3')
 
    with tf.variable_scope('res_last'):
