@@ -9,7 +9,7 @@ flags.DEFINE_string('train_dir', '../data',
                     'Directory with the training data.')
 flags.DEFINE_integer('batch_size', 100, 'Batch size.')
 flags.DEFINE_integer('num_batches', None, 'Num of batches to train (epochs).')
-flags.DEFINE_string('log_dir', '../log_cifar10_cat/conv_sum_v2/train',
+flags.DEFINE_string('log_dir', '../log_cifar10_cat/conv_sum_sgd_v2/train',
                     'Directory with the log data.')
 flags.DEFINE_float('lrn', 0.1, 'learning_rate')
 FLAGS = flags.FLAGS
