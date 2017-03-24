@@ -6,8 +6,8 @@ from mnist import inputs, network
 flags = tf.app.flags
 flags.DEFINE_string('train_dir', '../data',
                     'Directory with the training data.')
-flags.DEFINE_integer('batch_size', 10000, 'Batch size.')
-flags.DEFINE_integer('num_batches', 1, 'Num of batches to evaluate.')
+flags.DEFINE_integer('batch_size', 100, 'Batch size.')
+flags.DEFINE_integer('num_batches', 100, 'Num of batches to evaluate.')
 flags.DEFINE_string('log_dir', '../log_ass2/RN_mom/eval',
                     'Directory where to log data.')
 flags.DEFINE_string('checkpoint_dir', '../log_ass2/RN_mom/train',
