@@ -138,14 +138,14 @@ def inputs(train_dir, train, batch_size, num_epochs, one_hot_labels=False):
               capacity=16 * batch_size,
               min_after_dequeue=8 * batch_size,
               dtypes=[tf.float32, tf.int32],
-              shapes=[[mnist.IMAGE_SIZE, mnist.IMAGE_SIZE, 1], [1]],
+              shapes=[[mnist.IMAGE_SIZE, mnist.IMAGE_SIZE, 1], []],
               seed=7)
           num_threads = 16
         else:
           example_queue = tf.FIFOQueue(
               3 * batch_size,
               dtypes=[tf.float32, tf.int32],
-              shapes=[[mnist.IMAGE_SIZE, mnist.IMAGE_SIZE, 1], [1]])
+              shapes=[[mnist.IMAGE_SIZE, mnist.IMAGE_SIZE, 1], []])
           num_threads = 1
 
         example_enqueue_op = example_queue.enqueue([image, label])
