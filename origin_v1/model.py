@@ -57,6 +57,11 @@ def _residual(net, in_filter, out_filter, prefix):
       net += ori_net
    return net
 
+def _bi_conv(net, in_filter, out_filter, prefix):
+   net = slim.layers.conv2d(net, out_filter, [3,3], scope=prefix + 'conv_1', normalizer_fn=slim.layers.batch_norm)
+   net = slim.layers.conv2d(net, out_filter, [3,3], scope=prefix + 'conv_2', normalizer_fn=slim.layers.batch_norm)
+   return net
+
 def network(images, labels):
 
    net = slim.layers.conv2d(images, 16, [3,3], scope='res_init', normalizer_fn=slim.layers.batch_norm)
