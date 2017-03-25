@@ -62,7 +62,8 @@ def network(net, labels, mode):
       net = tf.reduce_mean(net, [1,2])
 
    logits = slim.layers.fully_connected(net, 10, activation_fn=None, scope='FC_10',biases_regularizer=regularizer, weights_regularizer=regularizer)
-   labels = tf.reshape(labels, [1])
+   if mode:
+     labels = tf.reshape(labels, [1])
    assert len(logits.get_shape()) == 2
    assert len(labels.get_shape()) == 1
    loss = tf.losses.sparse_softmax_cross_entropy(labels,logits)
