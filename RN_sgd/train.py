@@ -17,7 +17,7 @@ def main(train_dir, batch_size, num_batches, log_dir):
                             True,
                             batch_size,
                             num_batches)
-    predictions, total_loss = network(images, labels, True)
+    predictions, total_loss = network(images, tf.reshape(labels, [1]))
 
     tf.summary.scalar('loss', total_loss)
 

@@ -33,7 +33,7 @@ def _residual(net, in_filter, out_filter, prefix):
       net += ori_net
    return net
 
-def network(net, labels, mode):
+def network(net, labels):
 
    net = _si_conv(net, 8, 8, 'res_init')
 
@@ -62,8 +62,7 @@ def network(net, labels, mode):
       net = tf.reduce_mean(net, [1,2])
 
    logits = slim.layers.fully_connected(net, 10, activation_fn=None, scope='FC_10',biases_regularizer=regularizer, weights_regularizer=regularizer)
-   if mode:
-     labels = tf.reshape(labels, [1])
+
    assert len(logits.get_shape()) == 2
    assert len(labels.get_shape()) == 1
    loss = tf.losses.sparse_softmax_cross_entropy(labels,logits)

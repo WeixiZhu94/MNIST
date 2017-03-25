@@ -20,7 +20,7 @@ def main(train_dir, batch_size, num_batches, log_dir, checkpoint_dir=None):
         checkpoint_dir = log_dir
 
     images, labels = inputs(train_dir, False, batch_size, num_batches)
-    predictions, total_loss = network(images, labels, False)
+    predictions, total_loss = network(images, labels)
     
     tf.summary.scalar('loss', total_loss)
     predictions = tf.to_int32(tf.argmax(predictions, 1))
