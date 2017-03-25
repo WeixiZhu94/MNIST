@@ -34,37 +34,36 @@ def _residual(net, in_filter, out_filter, prefix):
    return net
 
 def network(net, labels):
-   with tf.device("/cpu:0"):
-     net = _si_conv(net, 8, 8, 'res_init')
+   net = _si_conv(net, 8, 8, 'res_init')
 
-     net = _residual(net, 8, 8, 'unit_8_1')
-     net = _residual(net, 8, 8, 'unit_8_2')
-     net = _residual(net, 8, 8, 'unit_8_3')
-     net = _residual(net, 8, 8, 'unit_8_4')
-     net = _residual(net, 8, 8, 'unit_8_5')
-     net = slim.layers.max_pool2d(net, [2,2], scope='pool_1')
-     net = _residual(net, 8, 16, 'unit_16_1')
-     net = _residual(net, 16, 16, 'unit_16_2')
-     net = _residual(net, 16, 16, 'unit_16_3')
-     net = _residual(net, 16, 16, 'unit_16_4')
-     net = _residual(net, 16, 16, 'unit_16_5')
-     net = slim.layers.max_pool2d(net, [2,2], scope='pool_2')
-     net = _residual(net, 16, 32, 'unit_32_1')
-     net = _residual(net, 32, 32, 'unit_32_2')
-     net = _residual(net, 32, 32, 'unit_32_3')
-     net = _residual(net, 32, 32, 'unit_32_4')
-     net = _residual(net, 32, 32, 'unit_32_5')
-     net = slim.layers.max_pool2d(net, [2,2], scope='pool_3')
+   net = _residual(net, 8, 8, 'unit_8_1')
+   net = _residual(net, 8, 8, 'unit_8_2')
+   net = _residual(net, 8, 8, 'unit_8_3')
+   net = _residual(net, 8, 8, 'unit_8_4')
+   net = _residual(net, 8, 8, 'unit_8_5')
+   net = slim.layers.max_pool2d(net, [2,2], scope='pool_1')
+   net = _residual(net, 8, 16, 'unit_16_1')
+   net = _residual(net, 16, 16, 'unit_16_2')
+   net = _residual(net, 16, 16, 'unit_16_3')
+   net = _residual(net, 16, 16, 'unit_16_4')
+   net = _residual(net, 16, 16, 'unit_16_5')
+   net = slim.layers.max_pool2d(net, [2,2], scope='pool_2')
+   net = _residual(net, 16, 32, 'unit_32_1')
+   net = _residual(net, 32, 32, 'unit_32_2')
+   net = _residual(net, 32, 32, 'unit_32_3')
+   net = _residual(net, 32, 32, 'unit_32_4')
+   net = _residual(net, 32, 32, 'unit_32_5')
+   net = slim.layers.max_pool2d(net, [2,2], scope='pool_3')
 
-     with tf.variable_scope('res_last'):
-        net = slim.layers.batch_norm(net)
-        net = tf.nn.relu(net)
-        net = tf.reduce_mean(net, [1,2])
+   with tf.variable_scope('res_last'):
+      net = slim.layers.batch_norm(net)
+      net = tf.nn.relu(net)
+      net = tf.reduce_mean(net, [1,2])
 
-     logits = slim.layers.fully_connected(net, 10, activation_fn=None, scope='FC_10',biases_regularizer=regularizer, weights_regularizer=regularizer)
-   
-     loss = tf.losses.sparse_softmax_cross_entropy(labels,logits)
-     total_loss = loss
+   logits = slim.layers.fully_connected(net, 10, activation_fn=None, scope='FC_10',biases_regularizer=regularizer, weights_regularizer=regularizer)
+ 
+   loss = tf.losses.sparse_softmax_cross_entropy(labels,logits)
+   total_loss = loss
    return logits, total_loss
 
 

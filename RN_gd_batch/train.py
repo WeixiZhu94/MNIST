@@ -5,7 +5,7 @@ from mnist import inputs, network
 flags = tf.app.flags
 flags.DEFINE_string('train_dir', '../data',
                     'Directory with the training data.')
-flags.DEFINE_integer('batch_size', 60000, 'Batch size.')
+flags.DEFINE_integer('batch_size', 20000, 'Batch size.')
 flags.DEFINE_integer('num_batches', None, 'Num of batches to train (epochs).')
 flags.DEFINE_string('log_dir', '../log_ass2/RN_gd_batch/train',
                     'Directory with the log data.')
