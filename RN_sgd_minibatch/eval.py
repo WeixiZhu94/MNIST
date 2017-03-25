@@ -6,11 +6,11 @@ from mnist import inputs, network
 flags = tf.app.flags
 flags.DEFINE_string('train_dir', '../data',
                     'Directory with the training data.')
-flags.DEFINE_integer('batch_size', 100, 'Batch size.')
+flags.DEFINE_integer('batch_size', 10000, 'Batch size.')
 flags.DEFINE_integer('num_batches', 100, 'Num of batches to evaluate.')
-flags.DEFINE_string('log_dir', '../log_ass2/RN_mom/eval',
+flags.DEFINE_string('log_dir', '../log_ass2/RN_sgd_minibatch/eval',
                     'Directory where to log data.')
-flags.DEFINE_string('checkpoint_dir', '../log_ass2/RN_mom/train',
+flags.DEFINE_string('checkpoint_dir', '../log_ass2/RN_sgd_minibatch/train',
                     'Directory with the model checkpoint data.')
 FLAGS = flags.FLAGS
 
@@ -42,7 +42,7 @@ def main(train_dir, batch_size, num_batches, log_dir, checkpoint_dir=None):
         '',
         checkpoint_dir,
         log_dir,
-        num_evals=num_batches,
+        num_evals=1,
         eval_op=list(metrics_to_updates.values()),
         summary_op=tf.summary.merge_all(),
         eval_interval_secs=30,

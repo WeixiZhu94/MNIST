@@ -7,7 +7,7 @@ flags.DEFINE_string('train_dir', '../data',
                     'Directory with the training data.')
 flags.DEFINE_integer('batch_size', 128, 'Batch size.')
 flags.DEFINE_integer('num_batches', None, 'Num of batches to train (epochs).')
-flags.DEFINE_string('log_dir', '../log_ass2/RN_mom/train',
+flags.DEFINE_string('log_dir', '../log_ass2/RN_sgd_minibatch/train',
                     'Directory with the log data.')
 FLAGS = flags.FLAGS
 
@@ -21,7 +21,7 @@ def main(train_dir, batch_size, num_batches, log_dir):
 
     tf.summary.scalar('loss', total_loss)
 
-    optimizer = tf.train.GradientDescentOptimizer(0.025, 0.9)
+    optimizer = tf.train.GradientDescentOptimizer(learning_rate=0.025)
     train_op = slim.learning.create_train_op(total_loss, optimizer, summarize_gradients=True)
 
     slim.learning.train(train_op, log_dir, save_summaries_secs=20, save_interval_secs=20)
