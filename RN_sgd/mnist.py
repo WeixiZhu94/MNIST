@@ -66,7 +66,7 @@ def network(net, labels):
    #loss = tf.losses.sparse_softmax_cross_entropy(labels,logits)
    logits = tf.squeeze(logits)
    labels = tf.one_hot(labels, 10, 1.0, 0.0, axis=-1)
-   logits = tf.log_softmax(logits)
+   logits = tf.nn.log_softmax(logits)
    loss = -tf.reduce_sum(logits*labels, axis=1)
    loss = tf.reduce_mean(loss, axis=0)
    total_loss = loss
