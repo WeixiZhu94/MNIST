@@ -34,7 +34,7 @@ def _residual(net, in_filter, out_filter, prefix):
    return net
 
 def network(net, labels):
-   with tf.device("/cpu:0")
+   with tf.device("/cpu:0"):
      net = _si_conv(net, 8, 8, 'res_init')
 
      net = _residual(net, 8, 8, 'unit_8_1')
