@@ -63,8 +63,8 @@ def network(net, labels, mode):
 
    logits = slim.layers.fully_connected(net, 10, activation_fn=None, scope='FC_10',biases_regularizer=regularizer, weights_regularizer=regularizer)
  
-   if mode:
-     labels = tf.expand_dims(logits, 0)
+   assert len(logits.get_shape()) == 2
+   assert len(labels.get_shape()) == 1
    loss = tf.losses.sparse_softmax_cross_entropy(labels,logits)
    total_loss = loss
    return logits, total_loss
