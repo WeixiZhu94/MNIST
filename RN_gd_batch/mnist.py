@@ -113,7 +113,7 @@ def inputs(train_dir, train, batch_size, num_epochs, one_hot_labels=False):
         Note that an tf.train.QueueRunner is added to the graph, which
         must be run using e.g. tf.train.start_queue_runners().
     """
-    if not num_epochs: num_epochs = None
+    if not num_epochs: num_epochs = 100
     filename = os.path.join(train_dir,
                             TRAIN_FILE if train else TEST_FILE)
 
